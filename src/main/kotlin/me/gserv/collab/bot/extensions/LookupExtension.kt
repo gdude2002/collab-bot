@@ -125,6 +125,18 @@ class LookupExtension : Extension() {
                     builder.append("**Apprx. Members:** `${invite.approximateMemberCount ?: "N/A"}`\n")
                     builder.append("**Apprx. Online:** `${invite.approximatePresenceCount ?: "N/A"}`\n\n")
 
+                    val features = guild.data.features
+
+                    if (features.isNotEmpty()) {
+                        builder.append("**Features (${features.size}):** ")
+
+                        builder.append(
+                            features.joinToString { "`${it.value}`" }
+                        )
+
+                        builder.append("\n\n")
+                    }
+
                     when (guild.owner) {
                         true -> builder.append("Invite was created by the server owner.\n\n")
                         false -> builder.append("Invite was **not** created by the server owner.\n\n")
