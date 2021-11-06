@@ -11,7 +11,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
 }
 
-group = "template"
+group = "me.gserv.collab.bot"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -39,7 +39,7 @@ dependencies {
 
 application {
     // This is deprecated, but the Shadow plugin requires it
-    mainClassName = "template.AppKt"
+    mainClassName = "me.gserv.collab.bot.AppKt"
 }
 
 gitHooks {
@@ -58,7 +58,7 @@ tasks.withType<KotlinCompile> {
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "template.AppKt"
+            "Main-Class" to "me.gserv.collab.bot.AppKt"
         )
     }
 }

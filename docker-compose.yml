@@ -1,0 +1,19 @@
+version: "3"
+services:
+  collab-bot:
+    image: ghcr.io/gdude2002/collab-bot:latest
+    container_name: collab-bot
+
+    restart: always
+
+    volumes:
+    - "collab-bot-data:/data"
+
+    environment:
+      - "GUILD=905216141650198530"
+      - "ENVIRONMENT=prod"
+
+      - TOKEN
+
+volumes:
+  collab-bot-data:

@@ -12,7 +12,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "template"
+rootProject.name = "CollabBot"
 
 enableFeaturePreview("VERSION_CATALOGS")
 
