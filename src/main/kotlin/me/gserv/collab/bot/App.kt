@@ -4,6 +4,8 @@
 package me.gserv.collab.bot
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
+import com.kotlindiscord.kord.extensions.modules.extra.phishing.DetectionAction
+import com.kotlindiscord.kord.extensions.modules.extra.phishing.extPhishing
 import me.gserv.collab.bot.extensions.GeneralExtension
 
 suspend fun main() {
@@ -19,6 +21,17 @@ suspend fun main() {
 
         extensions {
             add(::GeneralExtension)
+
+            extPhishing {
+                appName = "QuiltMC's Comfy (not Cozy) Bot"
+                detectionAction = DetectionAction.LogOnly
+                logChannelName = "phishing-logs"
+                requiredCommandPermission = null
+
+                check { isNotManager() }
+
+                regex("([^\\s</]+\\s*(?:\\.|dot)+\\s*[^\\s>/]+)")
+            }
         }
     }
 

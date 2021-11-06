@@ -27,7 +27,9 @@ repositories {
 dependencies {
     detektPlugins(libs.detekt)
 
-    implementation(libs.kord.extensions)
+    implementation(libs.kordex.core)
+    implementation(libs.kordex.phishing)
+
     implementation(libs.kotlin.stdlib)
     implementation(libs.kx.ser)
 

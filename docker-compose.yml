@@ -10,7 +10,7 @@ services:
     - "collab-bot-data:/data"
 
     environment:
-      - "GUILD=905216141650198530"
+      - "GUILD_ID=905216141650198530"
       - "ENVIRONMENT=prod"
 
       - TOKEN
