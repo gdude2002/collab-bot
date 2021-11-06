@@ -217,8 +217,9 @@ class LookupExtension : Extension() {
 
                 respond {
                     embed {
-                        title = "Invite: $code"
+                        color = DISCORD_BLURPLE
                         description = builder.toString()
+                        title = "Invite: $code"
 
                         if (guild?.iconHash != null) {
                             thumbnail {
