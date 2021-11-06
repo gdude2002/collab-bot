@@ -61,6 +61,12 @@ class LookupExtension : Extension() {
                                 "**ID:** `${user.id.value}`\n" +
                                 "**Mention:** ${user.mention}\n\n" +
 
+                                if (user.avatar != null) {
+                                    "**Avatar URL:** ${user.avatar?.url}\n\n"
+                                } else {
+                                    ""
+                                } +
+
                                 "**Created:** ${user.id.timestamp.toDiscord(TimestampType.LongDateTime)} " +
                                 "(${user.id.timestamp.toDiscord(TimestampType.RelativeTime)})\n\n" +
                                 "__**Flags**__ " +
@@ -165,6 +171,12 @@ class LookupExtension : Extension() {
                                 "**Tag:** `${user.tag}`\n" +
                                 "**ID:** `${user.id.value}`\n" +
                                 "**Mention:** ${user.mention}\n\n" +
+
+                                if (user.avatar != null) {
+                                    "**Avatar URL:** ${user.avatar?.url}\n\n"
+                                } else {
+                                    ""
+                                } +
 
                                 "**Created:** ${user.id.timestamp.toDiscord(TimestampType.LongDateTime)} " +
                                 "(${user.id.timestamp.toDiscord(TimestampType.RelativeTime)})\n\n" +
