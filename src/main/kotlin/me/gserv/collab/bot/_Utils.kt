@@ -2,6 +2,7 @@ package me.gserv.collab.bot
 
 import com.kotlindiscord.kord.extensions.checks.*
 import com.kotlindiscord.kord.extensions.checks.types.CheckContext
+import dev.kord.common.entity.UserFlag
 import mu.KotlinLogging
 
 suspend fun CheckContext<*>.inCollabGuild() {
@@ -63,4 +64,22 @@ suspend fun CheckContext<*>.isNotManager() {
             fail("Must **not** be a Quilt collab manager!")
         }
     }
+}
+
+fun UserFlag.getName(): String = when (this) {
+    UserFlag.None -> "None"
+    UserFlag.DiscordEmployee -> "Discord Employee"
+    UserFlag.DiscordPartner -> "Discord Partner"
+    UserFlag.HypeSquad -> "HypeSquad"
+    UserFlag.BugHunterLevel1 -> "Bug Hunter: Level 1"
+    UserFlag.HouseBravery -> "HypeSquad: Bravery"
+    UserFlag.HouseBrilliance -> "HypeSquad: Brilliance"
+    UserFlag.HouseBalance -> "HypeSquad: Balance"
+    UserFlag.EarlySupporter -> "Early Supporter"
+    UserFlag.TeamUser -> "Team User"
+    UserFlag.System -> "System User"
+    UserFlag.BugHunterLevel2 -> "Bug Hunter: Level 2"
+    UserFlag.VerifiedBot -> "Verified Bot"
+    UserFlag.VerifiedBotDeveloper -> "Early Verified Bot Developer"
+    UserFlag.DiscordCertifiedModerator -> "Discord Certified Moderator"
 }

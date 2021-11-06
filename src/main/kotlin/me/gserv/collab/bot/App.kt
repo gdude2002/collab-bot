@@ -7,6 +7,7 @@ import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.modules.extra.phishing.DetectionAction
 import com.kotlindiscord.kord.extensions.modules.extra.phishing.extPhishing
 import me.gserv.collab.bot.extensions.GeneralExtension
+import me.gserv.collab.bot.extensions.LookupExtension
 
 suspend fun main() {
     val bot = ExtensibleBot(TOKEN) {
@@ -21,6 +22,7 @@ suspend fun main() {
 
         extensions {
             add(::GeneralExtension)
+            add(::LookupExtension)
 
             extPhishing {
                 appName = "QuiltMC's Comfy (not Cozy) Bot"
