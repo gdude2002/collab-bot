@@ -131,7 +131,7 @@ class LookupExtension : Extension() {
                         builder.append("**Features (${features.size}):** ")
 
                         builder.append(
-                            features.joinToString { "`${it.value}`" }
+                            features.sortedBy { it.value }.joinToString { "`${it.value}`" }
                         )
 
                         builder.append("\n\n")
