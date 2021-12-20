@@ -16,22 +16,12 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.rest.Image
 import dev.kord.rest.builder.message.create.embed
 import kotlinx.datetime.Clock
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
 import me.gserv.collab.bot.getName
 import kotlin.time.ExperimentalTime
 
 @OptIn(KordPreview::class)
 class LookupExtension : Extension() {
     override val name = "lookup"
-
-    @OptIn(ExperimentalSerializationApi::class)
-    private val json = Json {
-        prettyPrint = true
-        prettyPrintIndent = "    "
-
-        encodeDefaults = false
-    }
 
     @OptIn(ExperimentalTime::class)
     override suspend fun setup() {
@@ -40,7 +30,7 @@ class LookupExtension : Extension() {
             description = "Look up information about the given user ID"
 
             action {
-                val user = event.kord.getUser(arguments.id)
+                val user = event.kord.getUser(arguments.id)?.fetchUser()
 
                 if (user == null) {
                     respond {
@@ -110,7 +100,7 @@ class LookupExtension : Extension() {
                     return@action
                 }
 
-                val user = invite.getInviter()
+                val user = invite.getInviter()?.fetchUser()
                 val channel = invite.channel
                 val guild = invite.partialGuild
 
