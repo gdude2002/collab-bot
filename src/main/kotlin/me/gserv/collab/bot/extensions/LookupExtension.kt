@@ -123,7 +123,7 @@ class LookupExtension : Extension() {
                         title = "Guild: ${widget.name}"
                         description = "**ID:** `${widget.id}`\n" +
                                 "**Apprx. Online:** ${widget.presenceCount}\n\n" +
-                                "**Invite:** `${widget.instantInvite.split("/").last()}"
+                                "**Invite:** `${widget.instantInvite.split("/").last()}`"
 
                         footer {
                             text = "Guild information"
@@ -134,10 +134,14 @@ class LookupExtension : Extension() {
                         page {
                             title = "Member: ${member.order}"
 
-                            description = "**Username:** `${member.username}\n" +
+                            description = "**Username:** `${member.username}`\n" +
                                     "**Status:** `${member.status}`"
 
                             image = member.avatarUrl
+
+                            footer {
+                                text = "Member information"
+                            }
                         }
                     }
                 }.send()
