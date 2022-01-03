@@ -122,10 +122,11 @@ class LookupExtension : Extension() {
                     page {
                         title = "Guild: ${widget.name}"
                         description = "**ID:** `${widget.id}`\n" +
-                                "**Apprx. Online:** ${widget.presenceCount}\n\n"
+                                "**Apprx. Online:** ${widget.presenceCount}"
 
                         if (widget.instantInvite != null) {
-                            description += "**Invite:** `${widget.instantInvite.split("/").last()}`"
+                            description += "\n\n" +
+                                    "**Invite:** `${widget.instantInvite.split("/").last()}`"
                         }
                     }
 
@@ -137,8 +138,8 @@ class LookupExtension : Extension() {
 
                             builder.append("Position | ID | Name\n\n")
 
-                            widget.channels.forEach { channel ->
-                                builder.append("${channel.position.toString().padStart(3, '0')} ")
+                            widget.channels.sortedBy { it.position }.forEach { channel ->
+                                builder.append("`${channel.position.toString().padStart(3, '0')}` | ")
                                 builder.append("`${channel.id}` | ${channel.name}")
                                 builder.append("\n")
                             }
