@@ -122,17 +122,34 @@ class LookupExtension : Extension() {
                     page {
                         title = "Guild: ${widget.name}"
                         description = "**ID:** `${widget.id}`\n" +
-                                "**Apprx. Online:** ${widget.presenceCount}\n\n" +
-                                "**Invite:** `${widget.instantInvite.split("/").last()}`"
+                                "**Apprx. Online:** ${widget.presenceCount}\n\n"
 
-                        footer {
-                            text = "Guild information"
+                        if (widget.instantInvite != null) {
+                            description += "**Invite:** `${widget.instantInvite.split("/").last()}`"
                         }
                     }
 
-                    widget.members.forEach { member ->
+                    if (widget.channels.isNotEmpty()) {
                         page {
-                            title = "Member: ${member.order}"
+                            title = "Channels: ${widget.name}"
+
+                            val builder = StringBuilder("")
+
+                            builder.append("Position | ID | Name\n\n")
+
+                            widget.channels.forEach { channel ->
+                                builder.append("${channel.position.toString().padStart(3, '0')} ")
+                                builder.append("`${channel.id}` | ${channel.name}")
+                                builder.append("\n")
+                            }
+
+                            description = builder.toString()
+                        }
+                    }
+
+                    widget.members.sortedBy { it.order }.forEach { member ->
+                        page {
+                            title = "Members: ${widget.name}"
 
                             description = "**Username:** `${member.username}`\n" +
                                     "**Status:** `${member.status}`"
@@ -140,7 +157,7 @@ class LookupExtension : Extension() {
                             image = member.avatarUrl
 
                             footer {
-                                text = "Member information"
+                                text = "Member ${member.order}"
                             }
                         }
                     }

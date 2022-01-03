@@ -10,12 +10,13 @@ data class WidgetData(
     val name: String,
 
     @SerialName("instant_invite")
-    val instantInvite: String,
+    val instantInvite: String? = null,
 
     @SerialName("presence_count")
     val presenceCount: Long,
 
-    val members: List<WidgetMember>
+    val channels: List<WidgetChannel>,
+    val members: List<WidgetMember>,
 )
 
 @Serializable
@@ -27,5 +28,12 @@ data class WidgetMember(
     val status: String,
 
     @SerialName("avatar_url")
-    val avatarUrl: String
+    val avatarUrl: String,
+)
+
+@Serializable
+data class WidgetChannel(
+    val id: Snowflake,
+    val name: String,
+    val position: Long,
 )
