@@ -27,7 +27,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import me.gserv.collab.bot.MANAGER_ROLE
 import me.gserv.collab.bot.inCollabGuild
-import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(KordPreview::class)
@@ -59,7 +59,7 @@ class GeneralExtension : Extension() {
                 }
 
                 event.channel.withTyping {
-                    delay(Duration.seconds(3))
+                    delay(3.seconds)
                 }
 
                 message.edit {
@@ -67,7 +67,7 @@ class GeneralExtension : Extension() {
                 }
 
                 event.channel.withTyping {
-                    delay(Duration.seconds(3))
+                    delay(3.seconds)
                 }
 
                 message.edit {

@@ -83,3 +83,18 @@ fun UserFlag.getName(): String = when (this) {
     UserFlag.VerifiedBotDeveloper -> "Early Verified Bot Developer"
     UserFlag.DiscordCertifiedModerator -> "Discord Certified Moderator"
 }
+
+fun String.replaceParams(vararg pairs: Pair<String, Any?>): String {
+    var result = this
+
+    pairs.forEach {
+        result = result.replace(":${it.first}", it.second.toString())
+    }
+
+    return result
+}
+
+@Suppress("SpreadOperator")
+fun String.replaceParams(pairs: Map<String, Any>): String = this.replaceParams(
+    *pairs.entries.map { it.toPair() }.toTypedArray()
+)

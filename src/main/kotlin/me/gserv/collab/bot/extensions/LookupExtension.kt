@@ -10,18 +10,40 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.time.TimestampType
 import com.kotlindiscord.kord.extensions.time.toDiscord
+import com.kotlindiscord.kord.extensions.types.editingPaginator
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.translate
 import dev.kord.common.annotation.KordPreview
+import dev.kord.common.entity.Snowflake
 import dev.kord.rest.Image
 import dev.kord.rest.builder.message.create.embed
+import io.ktor.client.HttpClient
+import io.ktor.client.features.ResponseException
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.get
 import kotlinx.datetime.Clock
+import kotlinx.serialization.json.Json
+import me.gserv.collab.bot.entities.WidgetData
 import me.gserv.collab.bot.getName
+import me.gserv.collab.bot.replaceParams
 import kotlin.time.ExperimentalTime
+
+const val WIDGET_URL = "https://discord.com/api/guilds/:id/widget.json"
 
 @OptIn(KordPreview::class)
 class LookupExtension : Extension() {
     override val name = "lookup"
+
+    private val client = HttpClient {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(
+                Json {
+                    ignoreUnknownKeys = true
+                }
+            )
+        }
+    }
 
     @OptIn(ExperimentalTime::class)
     override suspend fun setup() {
@@ -79,6 +101,49 @@ class LookupExtension : Extension() {
             }
         }
 
+        publicSlashCommand(::SnowflakeArguments) {
+            name = "widget"
+            description = "Look up the widget for the given guild ID, if enabled"
+
+            action {
+                val widget = getWidget(arguments.id)
+
+                if (widget == null) {
+                    respond {
+                        content = "Invalid guild ID, or widget disabled: `${arguments.id}`"
+                    }
+
+                    return@action
+                }
+
+                editingPaginator {
+                    timeoutSeconds = 120
+
+                    page {
+                        title = "Guild: ${widget.name}"
+                        description = "**ID:** `${widget.id}`\n" +
+                                "**Apprx. Online:** ${widget.presenceCount}\n\n" +
+                                "**Invite:** `${widget.instantInvite.split("/").last()}"
+
+                        footer {
+                            text = "Guild information"
+                        }
+                    }
+
+                    widget.members.forEach { member ->
+                        page {
+                            title = "Member: ${member.order}"
+
+                            description = "**Username:** `${member.username}\n" +
+                                    "**Status:** `${member.status}`"
+
+                            image = member.avatarUrl
+                        }
+                    }
+                }.send()
+            }
+        }
+
         publicSlashCommand(::InviteArguments) {
             name = "invite"
             description = "Look up information about the given invite"
@@ -130,6 +195,8 @@ class LookupExtension : Extension() {
                     when (guild.owner) {
                         true -> builder.append("Invite was created by the server owner.\n\n")
                         false -> builder.append("Invite was **not** created by the server owner.\n\n")
+
+                        else -> {}  // Nothing to do here
                     }
 
                     if (guild.welcomeScreen != null) {
@@ -221,6 +288,17 @@ class LookupExtension : Extension() {
             }
         }
     }
+
+    suspend fun getWidget(id: Snowflake): WidgetData? =
+        try {
+            client.get<WidgetData>(WIDGET_URL.replaceParams("id" to id))
+        } catch (e: ResponseException) {
+            if (e.response.status.value == 403) {
+                null
+            } else {
+                throw e
+            }
+        }
 
     inner class SnowflakeArguments : Arguments() {
         val id by snowflake("id", "ID to look up")
